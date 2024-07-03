@@ -9,6 +9,7 @@ from flask import jsonify
 from openai import OpenAI
 from internal.scheme import CompletionReq
 from pkg.response import success_json,validate_error_json
+from internal.exception import FailException
 class AppHandler:
 
     def openai_app(self):
@@ -31,4 +32,4 @@ class AppHandler:
         return success_json({"content":content})
 
     def ping(self):
-        return 'pong'
+        raise FailException("failed msg",{})

@@ -11,9 +11,18 @@ from injector import Injector
 from internal.router import Router
 from dotenv import load_dotenv
 from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from config.extension import ExtensionModule
+# when db.create_all(), make sure import model
+from internal.model import AppModel
 
-injector = Injector()
-app = Http(__name__, config=Config(), router=injector.get(Router))
+# when injector use module
+injector = Injector([ExtensionModule()])
+db = injector.get(SQLAlchemy)
 load_dotenv()
+app = Http(__name__, db=db, config=Config(), router=injector.get(Router))
+
 if __name__ == '__main__':
-    app.run(debug=True)
+   # app.run(debug=True)
+    with app.app_context():
+        db.create_all()
