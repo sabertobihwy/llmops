@@ -11,7 +11,7 @@ from injector import Injector
 from internal.router import Router
 from dotenv import load_dotenv
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
+from pkg.sqlalchemy import SQLAlchemy
 from config.extension import ExtensionModule
 # when db.create_all(), make sure import model
 from internal.model import AppModel

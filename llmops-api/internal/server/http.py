@@ -12,7 +12,7 @@ from internal.router import Router
 from config import Config
 from internal.exception import CustomException
 from pkg.response import json,Response,HttpCode
-from flask_sqlalchemy  import SQLAlchemy
+from pkg.sqlalchemy import SQLAlchemy
 class Http(Flask):
     def __init__(self, *args, db : SQLAlchemy,config:Config, router:Router, **kwargs):
         super().__init__(*args, **kwargs)
