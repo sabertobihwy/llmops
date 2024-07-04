@@ -23,6 +23,7 @@ load_dotenv()
 app = Http(__name__, db=db, config=Config(), router=injector.get(Router))
 
 if __name__ == '__main__':
-   # app.run(debug=True)
-    with app.app_context():
-        db.create_all()
+    app.run(debug=True)
+   #  with app.app_context():
+   #       _ = AppModel()
+   #      db.create_all()

@@ -16,13 +16,14 @@ from flask_sqlalchemy  import SQLAlchemy
 class Http(Flask):
     def __init__(self, *args, db : SQLAlchemy,config:Config, router:Router, **kwargs):
         super().__init__(*args, **kwargs)
-        router.register_router(self)
 
         # from_object(config)：from_object 方法会将传入对象（例如上面的 Config 类）中的所有大写属性加载到 Flask 应用实例的配置中。
         self.config.from_object(config)
         self.register_error_handler(Exception, self._error_handler)
 
         db.init_app(self)
+
+        router.register_router(self)
 
     def _error_handler(self, error : Exception):
         if isinstance(error, CustomException):
