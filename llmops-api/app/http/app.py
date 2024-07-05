@@ -5,6 +5,7 @@ Created on 2024/6/28 14:51
 @author: wenyan
 @file: app.py
 """
+from flask_migrate import Migrate
 
 from internal.server import Http
 from injector import Injector
@@ -19,8 +20,9 @@ from internal.model import AppModel
 # when injector use module
 injector = Injector([ExtensionModule()])
 db = injector.get(SQLAlchemy)
+migrate = injector.get(Migrate)
 load_dotenv()
-app = Http(__name__, db=db, config=Config(), router=injector.get(Router))
+app = Http(__name__, migrate=migrate,db=db, config=Config(), router=injector.get(Router))
 
 if __name__ == '__main__':
     app.run(debug=True)

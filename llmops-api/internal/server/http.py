@@ -13,8 +13,9 @@ from config import Config
 from internal.exception import CustomException
 from pkg.response import json,Response,HttpCode
 from pkg.sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 class Http(Flask):
-    def __init__(self, *args, db : SQLAlchemy,config:Config, router:Router, **kwargs):
+    def __init__(self, *args, migrate: Migrate, db : SQLAlchemy,config:Config, router:Router, **kwargs):
         super().__init__(*args, **kwargs)
 
         # from_object(config)：from_object 方法会将传入对象（例如上面的 Config 类）中的所有大写属性加载到 Flask 应用实例的配置中。
@@ -22,7 +23,7 @@ class Http(Flask):
         self.register_error_handler(Exception, self._error_handler)
 
         db.init_app(self)
-
+        migrate.init_app(self, db, directory="internal/migration")
         router.register_router(self)
 
     def _error_handler(self, error : Exception):
