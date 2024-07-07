@@ -14,7 +14,9 @@ from internal.scheme import CompletionReq
 from internal.service import AppService
 from pkg.response import success_json, validate_error_json, success_message
 from internal.exception import FailException
-
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
 
 @inject
 @dataclass
@@ -40,18 +42,14 @@ class AppHandler:
         if not req.validate():
             return validate_error_json(req.errors)
 
-        client = OpenAI()
-        completion = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system",
-                 "content": "You are a poetic assistant, "
-                            "skilled in explaining complex programming concepts with creative flair."},
-                {"role": "user", "content": req.query.data}
-            ]
-        )
+        prompt_tmp = ChatPromptTemplate.from_template("{query}")
+        llm = ChatOpenAI(model="gpt-3.5-turbo-16k")
+       # msg = llm.invoke(prompt_tmp.invoke({"query": req.query}))
+        parser = StrOutputParser()
 
-        content = completion.choices[0].message.content
+        chain = prompt_tmp | llm | parser
+        content = chain.invoke({"query": req.query})
+
         return success_json({"content": content})
 
     def ping(self):
