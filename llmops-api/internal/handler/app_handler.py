@@ -9,7 +9,6 @@ import uuid
 from dataclasses import dataclass
 
 from injector import inject
-from openai import OpenAI
 from internal.scheme import CompletionReq
 from internal.service import AppService
 from pkg.response import success_json, validate_error_json, success_message
@@ -48,7 +47,8 @@ class AppHandler:
         parser = StrOutputParser()
 
         chain = prompt_tmp | llm | parser
-        content = chain.invoke({"query": req.query})
+        #print(req.query.data)
+        content = chain.invoke({"query": req.query.data})
 
         return success_json({"content": content})
 

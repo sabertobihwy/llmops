@@ -1,3 +1,7 @@
 /test/
 .env
-/venv/
+venv/*
+storage/*
+.idea/*
+tmp/*
+
