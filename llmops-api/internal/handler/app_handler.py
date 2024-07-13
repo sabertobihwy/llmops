@@ -36,13 +36,13 @@ class AppHandler:
         self.service.insert_app()
         return success_message("successfully inserted into appModel")
 
-    def openai_app(self):
+    def openai_app(self,api_key):
         req = CompletionReq()
         if not req.validate():
             return validate_error_json(req.errors)
 
         prompt_tmp = ChatPromptTemplate.from_template("{query}")
-        llm = ChatOpenAI(model="gpt-3.5-turbo-16k")
+        llm = ChatOpenAI(model="gpt-3.5-turbo-16k", api_key=api_key)
        # msg = llm.invoke(prompt_tmp.invoke({"query": req.query}))
         parser = StrOutputParser()
 

@@ -21,7 +21,7 @@ class Router:
     def register_router(self, app: Flask):
         bp = Blueprint("llmops_router", __name__, url_prefix="")
         bp.add_url_rule("/ping", view_func=self.apphandler.ping)  # func name, not result!
-        bp.add_url_rule("/openai", methods=["POST"], view_func=self.apphandler.openai_app)
+        bp.add_url_rule("/openai/<api_key>", methods=["POST"], view_func=self.apphandler.openai_app)
         bp.add_url_rule("/insert", methods=["POST"], view_func=self.apphandler.insert_app)
         bp.add_url_rule("/get/<uuid:id>", view_func=self.apphandler.query_app)
         bp.add_url_rule("/update/<uuid:id>", methods=["POST"], view_func=self.apphandler.update_app)

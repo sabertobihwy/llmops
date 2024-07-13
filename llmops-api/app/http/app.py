@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 from config import Config
 from pkg.sqlalchemy import SQLAlchemy
 from config.extension import ExtensionModule
+
+
 # when db.create_all(), make sure import model
 from internal.model import AppModel
 
@@ -23,6 +25,7 @@ db = injector.get(SQLAlchemy)
 migrate = injector.get(Migrate)
 load_dotenv()
 app = Http(__name__, migrate=migrate,db=db, config=Config(), router=injector.get(Router))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

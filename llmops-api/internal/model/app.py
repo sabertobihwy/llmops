@@ -22,7 +22,7 @@ class AppModel(db.Model):
     account_id = Column(UUID,nullable=False)
     name = Column(String(255),default="",nullable=False)
     icon = Column(String(255),default="",nullable=False)
-    status = Column(String(255),default="",nullable=True)
+   # status = Column(String(255),default="",nullable=True)
     description = Column(Text,default="",nullable=False)
     updated_at = Column(DateTime,default=datetime.now, onupdate=datetime.now,nullable=False)
     created_at = Column(DateTime,default=datetime.now, nullable=False)
